@@ -4,6 +4,8 @@ import {List, Map} from 'immutable';
 
 /* beautify preserve:end */
 
+export const INITIAL_STATE = Map();
+
 /*****************
  * setEntries
  *
@@ -25,13 +27,14 @@ function getWinners(vote) {
   if (!vote) {
     return [];
   }
-  const [a, b] = vote.get('pair');
-  const aVotes = vote.getIn(['tally', a], 0);
-  const bVotes = vote.getIn(['tally', b], 0);
+  const [a, b] = vote
+.get('pair');
+  const first = vote.getIn(['tally', a], 0);
+  const second = vote.getIn(['tally', b], 0);
 
-  if (aVotes > bVotes) {
+  if (first > second) {
     return [a];
-  } else if (aVotes < bVotes) {
+  } else if (first < second) {
     return [b];
   } else {
     return [a, b];
@@ -67,9 +70,9 @@ export function next(state) {
  * @param {string}  entry
  * @returns {Map}
  */
-export function vote(state, entry) {
-  return state.updateIn(
-    ['vote', 'tally', entry],
+export function vote(voteState, entry) {
+  return voteState.updateIn(
+    ['tally', entry],
     0,
     tally => tally + 1
   );
