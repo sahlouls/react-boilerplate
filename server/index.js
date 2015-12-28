@@ -12,9 +12,9 @@ store.dispatch({
   type: SET_ENTRIES,
   entries: require('./entries.json')
 });
-console.log('\nStore initialized', store.getState());
+//console.log('\nStore initialized', store.getState());
 
 store.dispatch({
   type: NEXT
 });
-console.log('\nVote started', store.getState());
+//console.log('\nVote started', store.getState());
