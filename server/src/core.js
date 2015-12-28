@@ -28,7 +28,7 @@ function getWinners(vote) {
     return [];
   }
   const [a, b] = vote
-.get('pair');
+    .get('pair');
   const first = vote.getIn(['tally', a], 0);
   const second = vote.getIn(['tally', b], 0);
 
@@ -56,6 +56,7 @@ export function next(state) {
   } else {
     return state.merge({
       vote: Map({
+        round: state.getIn(['vote', 'round'], 0) + 1,
         pair: entries.take(2)
       }),
       entries: entries.skip(2)
@@ -71,9 +72,13 @@ export function next(state) {
  * @returns {Map}
  */
 export function vote(voteState, entry) {
-  return voteState.updateIn(
-    ['tally', entry],
-    0,
-    tally => tally + 1
-  );
+  if (voteState.get('pair').includes(entry)) {
+    return voteState.updateIn(
+      ['tally', entry],
+      0,
+      tally => tally + 1
+    );
+  } else {
+    return voteState;
+  }
 }
